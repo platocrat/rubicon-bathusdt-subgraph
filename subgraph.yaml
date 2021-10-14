@@ -1,4 +1,4 @@
-specVersion: 0.0.1
+specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
@@ -10,17 +10,18 @@ dataSources:
       abi: BathToken
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.2
+      apiVersion: 0.0.5
+      file: ./src/mappings/bathUSDT.ts
       language: wasm/assemblyscript
       entities:
         - Approval
         - Deposit
         - LogInit
+        - Withdrawal
         - Transfer
-        - Withdraw
       abis:
         - name: BathToken
-          file: ./abis/BathToken.json
+          file: ./abis/bathToken.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,uint256)
           handler: handleApproval
@@ -28,8 +29,7 @@ dataSources:
           handler: handleDeposit
         - event: LogInit(uint256)
           handler: handleLogInit
+        - event: Withdraw(uint256,address,uint256,address,uint256,address)
+          handler: handleWithdrawal
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-        - event: Withdraw(uint256,address,uint256,address,uint256,address)
-          handler: handleWithdraw
-      file: ./src/mapping.ts
